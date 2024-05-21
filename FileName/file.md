@@ -22,3 +22,5 @@
 	Mat padded;
 	getZeroPaddedImage(img, padded);
 	getZeroPaddedImage(lineImg, lineImg);
+**asdfsdfsdfs .**   
+~~fsleifjslfd.~~
