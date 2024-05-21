@@ -2,7 +2,7 @@
 ## 주제
 ### 주제
 
-  Mat img = imread("C:/Users/AIRLAB/Desktop/img/sky.jpg", 0);
+  	Mat img = imread("C:/Users/AIRLAB/Desktop/img/sky.jpg", 0);
 	
 	  CV_Assert(img.data);
 	  Mat lineImg = img.clone();
