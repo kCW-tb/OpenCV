@@ -20,60 +20,60 @@ int main(void) {
 	getZeroPaddedImage(img, padded);
 	getZeroPaddedImage(lineImg, lineImg);
 	
-	//dft¸¦ À§ÇÑ 2Ã¤³Î ¸ÅÆ®¸¯½º »ı¼º - ½Ç¼öºÎ Çã¼öºÎ ±¸º°À» ÇØÁÖ±â À§ÇÑ ´Ü°è(½Ç¼ö´Â °íÁ¤°ª.)
+	//dftë¥¼ ìœ„í•œ 2ì±„ë„ ë§¤íŠ¸ë¦­ìŠ¤ ìƒì„± - ì‹¤ìˆ˜ë¶€ í—ˆìˆ˜ë¶€ êµ¬ë³„ì„ í•´ì£¼ê¸° ìœ„í•œ ë‹¨ê³„(ì‹¤ìˆ˜ëŠ” ê³ ì •ê°’.)
 	Mat planes[] = { Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F) };
-	Mat complexI;	//complexI¿¡ 2Ã¤³ÎÀ» ÇÕÄ£ Mat°´Ã¼ »ı¼º. CV_32FC2ÀÏ°ÍÀ¸·Î ¿¹»ó.
+	Mat complexI;	//complexIì— 2ì±„ë„ì„ í•©ì¹œ Matê°ì²´ ìƒì„±. CV_32FC2ì¼ê²ƒìœ¼ë¡œ ì˜ˆìƒ.
 	merge(planes, 2, complexI);
 
 	Mat planes_line[] = { Mat_<float>(lineImg), Mat::zeros(lineImg.size(), CV_32F) };
-	Mat complexI_line;	//complexI¿¡ 2Ã¤³ÎÀ» ÇÕÄ£ Mat°´Ã¼ »ı¼º. CV_32FC2ÀÏ°ÍÀ¸·Î ¿¹»ó.
+	Mat complexI_line;	//complexIì— 2ì±„ë„ì„ í•©ì¹œ Matê°ì²´ ìƒì„±. CV_32FC2ì¼ê²ƒìœ¼ë¡œ ì˜ˆìƒ.
 	merge(planes_line, 2, complexI_line);
 	dft(complexI_line, complexI_line);
 	split(complexI_line, planes_line);
 
 	Mat magI_line, angI_line;
 	getLogMag(planes_line, magI_line, angI_line);
-	//log°è»ê±îÁö ¸¶Ä£ °¢µµ¿Í Å©±â¿¡ ´ëÇØ¼­ Á¤±ÔÈ­ ½ÇÇà.
-	normalize(magI_line, magI_line, 0, 1, NORM_MINMAX);	//floatÇüÀÌ¹Ç·Î 0ºÎÅÍ 1·Î Á¤±ÔÈ­ ÁøÇà
+	//logê³„ì‚°ê¹Œì§€ ë§ˆì¹œ ê°ë„ì™€ í¬ê¸°ì— ëŒ€í•´ì„œ ì •ê·œí™” ì‹¤í–‰.
+	normalize(magI_line, magI_line, 0, 1, NORM_MINMAX);	//floatí˜•ì´ë¯€ë¡œ 0ë¶€í„° 1ë¡œ ì •ê·œí™” ì§„í–‰
 	normalize(angI_line, angI_line, 0, 1, NORM_MINMAX);
 
 	magI_line = getshuppling(magI_line);
 	imshow("magI_line", magI_line);
 
-	//dft ¼öÇàÇÏ°í Ã¤³Î ºĞ¸® planes[0] : ½Ç¼öºÎ, planes[1] : Çã¼öºÎ
+	//dft ìˆ˜í–‰í•˜ê³  ì±„ë„ ë¶„ë¦¬ planes[0] : ì‹¤ìˆ˜ë¶€, planes[1] : í—ˆìˆ˜ë¶€
 	dft(complexI, complexI);
 	split(complexI, planes);
 
 	Mat magI, angI;
 	getLogMag(planes, magI, angI);
-	//log°è»ê±îÁö ¸¶Ä£ °¢µµ¿Í Å©±â¿¡ ´ëÇØ¼­ Á¤±ÔÈ­ ½ÇÇà.
-	normalize(magI, magI, 0, 1, NORM_MINMAX);	//floatÇüÀÌ¹Ç·Î 0ºÎÅÍ 1·Î Á¤±ÔÈ­ ÁøÇà
+	//logê³„ì‚°ê¹Œì§€ ë§ˆì¹œ ê°ë„ì™€ í¬ê¸°ì— ëŒ€í•´ì„œ ì •ê·œí™” ì‹¤í–‰.
+	normalize(magI, magI, 0, 1, NORM_MINMAX);	//floatí˜•ì´ë¯€ë¡œ 0ë¶€í„° 1ë¡œ ì •ê·œí™” ì§„í–‰
 	normalize(angI, angI, 0, 1, NORM_MINMAX);
-	magI = getshuppling(magI);	//1-3, 2-4»çºĞ¸é ±³Ã¼
+	magI = getshuppling(magI);	//1-3, 2-4ì‚¬ë¶„ë©´ êµì²´
 	imshow("img", img);
 	imshow("pd_img", padded);
 	
-	imshow("real_½Ç¼ö", planes[0]);
+	imshow("real_ì‹¤ìˆ˜", planes[0]);
 	planes[0] = getshuppling(planes[0]);
-	imshow("real_½Ç¼ö", planes[0]);
-	imshow("imaginary_Çã¼ö", planes[1]);
-	imshow("Å©±â", magI);
-	imshow("°¢µµ", angI);
-	//¿ª Çª¸®¿¡ º¯È¯ dft(ÀÔ·Â¿µ»ó, ÀÔ·Â¿µ»ó, ¿É¼Ç»ó¼ö);
-	//splitÀ¸·Î ºĞÇÒÇØÁÖ°í Á¤±ÔÈ­ ÁøÇà
+	imshow("real_ì‹¤ìˆ˜", planes[0]);
+	imshow("imaginary_í—ˆìˆ˜", planes[1]);
+	imshow("í¬ê¸°", magI);
+	imshow("ê°ë„", angI);
+	//ì—­ í‘¸ë¦¬ì— ë³€í™˜ dft(ì…ë ¥ì˜ìƒ, ì…ë ¥ì˜ìƒ, ì˜µì…˜ìƒìˆ˜);
+	//splitìœ¼ë¡œ ë¶„í• í•´ì£¼ê³  ì •ê·œí™” ì§„í–‰
 	waitKey();
 	return 0;
 }
 
-//Á¶±İ´õ ¼¼¹ĞÇÏ°Ô DFT¸¦ ÀÌÇàÇÏ±â À§ÇÑ ÁØºñ´Ü°è ÀÌ¹ÌÁöÀÇ ¿©À¯ºÎºĞÀÌ »ı±â°í 0À¸·Î ÃÊ±âÈ­
+//ì¡°ê¸ˆë” ì„¸ë°€í•˜ê²Œ DFTë¥¼ ì´í–‰í•˜ê¸° ìœ„í•œ ì¤€ë¹„ë‹¨ê³„ ì´ë¯¸ì§€ì˜ ì—¬ìœ ë¶€ë¶„ì´ ìƒê¸°ê³  0ìœ¼ë¡œ ì´ˆê¸°í™”
 void getZeroPaddedImage(Mat& img, Mat& dst) {	
 	int m = getOptimalDFTSize(img.rows);
 	int n = getOptimalDFTSize(img.cols);
 	copyMakeBorder(img, dst, 0, m - img.rows, 0, n - img.cols, BORDER_CONSTANT, Scalar::all(0));
 }
-//½Ç¼öºÎ¿Í Çã¼öºÎ·ÎºÎÅÍ Å©±â¿Í °¢µµ¸¦ °è»êÇÏ°í Å©±â¿¡ log¸¦ ÃëÇØ¼­ µ¹·ÁÁÜ ÀÌÈÄ Á¤±ÔÈ­ ´Ü°è°¡ ÇÊ¿ä.
+//ì‹¤ìˆ˜ë¶€ì™€ í—ˆìˆ˜ë¶€ë¡œë¶€í„° í¬ê¸°ì™€ ê°ë„ë¥¼ ê³„ì‚°í•˜ê³  í¬ê¸°ì— logë¥¼ ì·¨í•´ì„œ ëŒë ¤ì¤Œ ì´í›„ ì •ê·œí™” ë‹¨ê³„ê°€ í•„ìš”.
 void getLogMag(Mat planes[], Mat& magI, Mat& angI) {
-	//Á÷±³ÁÂÇ¥¸¦ ±ØÁÂÇ¥°è·Î œX¶ó¶ó¶ó ÇÏ´Â ÇÔ¼ö cartToPolar
+	//ì§êµì¢Œí‘œë¥¼ ê·¹ì¢Œí‘œê³„ë¡œ ÂœXë¼ë¼ë¼ í•˜ëŠ” í•¨ìˆ˜ cartToPolar
 	cartToPolar(planes[0], planes[1], magI, angI, true);
 	magI += Scalar::all(1);
 	log(magI, magI);
@@ -106,7 +106,7 @@ void addNoise(Mat& img, int nNoise) {
 		nGenPoint++;
 	}
 }
-//ÀâÀ½ Ãß°¡
+//ì¡ìŒ ì¶”ê°€
 void addLine_h(Mat& img, int nLine) {
 	int height = img.rows / nLine;
 	for (int i = 0; i < nLine; i++) {
