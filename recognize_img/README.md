@@ -106,3 +106,6 @@ case EVENT_LBUTTONDOWN:
 
 Clear의 영역이 눌렸을 때에는 해당 영역의 픽셀을 모두 Scalar(255, 255, 255)로 초기화시켜주었다.
 Exit의 영역이 눌렸을 때에는 exit(1)을 통해 프로그램을 종료시키도록 하였다.
+
+
+[기본 틀 작동 영상](https://youtu.be/yHq14nihd5s)
