@@ -25,11 +25,14 @@ void on_mouse(int event, int x, int y, int flags, void* userdata);
 int main(void)
 {
     Mat img = drawLineImg();
+    char c;
     namedWindow("NUMBER");
-    setMouseCallback("NUMBER", on_mouse, &img);
-
-    imshow("NUMBER", img);
-    waitKey();
+    while (true) {
+        setMouseCallback("NUMBER", on_mouse, &img);
+        imshow("NUMBER", img);
+        c = waitKey(1);
+        if (c == 27) break;
+    }
     return 0;
 }
 
